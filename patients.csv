@@ -1,0 +1,51 @@
+PATIENT_ID,NAME,AGE,GENDER,RISK_SCORE,CONDITION
+P101,Ravi Kumar,65,M,92,Heart Disease
+P102,Sneha Reddy,34,F,40,Diabetes
+P103,Arjun Mehta,50,M,78,Hypertension
+P104,Anjali Sharma,28,F,25,Normal
+P105,Kiran Rao,72,M,95,Stroke Risk
+P106,Pooja Singh,45,F,60,Asthma
+P107,Manoj Das,55,M,88,Kidney Disease
+P108,Sarah Khan,30,F,35,Normal
+P109,Deepak Verma,68,M,90,COPD
+P110,Divya Nair,40,F,55,Diabetes
+P111,Ajay Patel,63,M,89,Heart Disease
+P112,Meena Desai,36,F,38,Normal
+P113,Rajesh Mishra,57,M,75,Hypertension
+P114,Priya Joshi,27,F,28,Normal
+P115,Vikram Saxena,70,M,93,Stroke Risk
+P116,Ritu Chauhan,42,F,58,Asthma
+P117,Suresh Malhotra,54,M,85,Kidney Disease
+P118,Neha Srinivasan,31,F,33,Normal
+P119,Prasad Iyer,66,M,87,COPD
+P120,Swati Gupta,44,F,52,Diabetes
+P121,Venkatesh Reddy,61,M,90,Heart Disease
+P122,Rachana Menon,33,F,36,Normal
+P123,Sanjay Nair,59,M,73,Hypertension
+P124,Lata Rao,29,F,24,Normal
+P125,Ashok Sharma,69,M,94,Stroke Risk
+P126,Kavita Jain,41,F,56,Asthma
+P127,Ashwin Kumar,56,M,86,Kidney Disease
+P128,Tara Menon,29,F,30,Normal
+P129,Satish Raj,71,M,89,COPD
+P130,Roshni Mehta,37,F,45,Diabetes
+P131,Avinash Rao,58,M,84,Heart Disease
+P132,Preeti Menon,32,F,34,Normal
+P133,Harish Desai,62,M,76,Hypertension
+P134,Shreya Patel,26,F,26,Normal
+P135,Somnath Ghosh,67,M,91,Stroke Risk
+P136,Apoorva Tiwari,43,F,54,Asthma
+P137,Mithun Rao,52,M,82,Kidney Disease
+P138,Anisha Das,28,F,32,Normal
+P139,Rahul Prakash,64,M,88,COPD
+P140,Simran Kaur,38,F,48,Diabetes
+P141,Naresh Rao,60,M,87,Heart Disease
+P142,Sheetal Dixit,35,F,39,Normal
+P143,Samar Banerjee,65,M,79,Hypertension
+P144,Tanya Malhotra,27,F,27,Normal
+P145,Ramesh Hegde,73,M,96,Stroke Risk
+P146,Komal Gupta,44,F,61,Asthma
+P147,Anil Srinivasan,51,M,83,Kidney Disease
+P148,Priya Menon,29,F,31,Normal
+P149,Dinesh Rao,67,M,86,COPD
+P150,Minal Shah,39,F,50,Diabetes

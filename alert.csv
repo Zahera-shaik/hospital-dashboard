@@ -1,0 +1,51 @@
+
+ALERT_ID,VISIT_ID,ALERT_TYPE,ALERT_LEVEL,ALERT_TIME
+A301,V205,Stroke Emergency,High,2026-02-02 10:30:00
+A302,V207,Cardiac Arrest Risk,Critical,2026-02-03 14:15:00
+A303,V209,Respiratory Failure,Critical,2026-02-04 09:50:00
+A304,V201,High BP Warning,Medium,2026-02-01 11:20:00
+A305,V203,Sugar Level Alert,Low,2026-02-02 16:10:00
+A306,V206,Abnormal ECG Pattern,Medium,2026-02-03 10:40:00
+A307,V208,Hypoglycemia Alert,Low,2026-02-03 15:25:00
+A308,V210,Chest Pain Alert,High,2026-02-04 11:05:00
+A309,V211,Arrhythmia Detected,High,2026-02-05 13:20:00
+A310,V212,Low Oxygen Saturation,Medium,2026-02-05 16:40:00
+A311,V213,Hypertensive Crisis,High,2026-02-06 12:15:00
+A312,V214,Fever Alert,Medium,2026-02-06 17:30:00
+A313,V215,Severe Headache,High,2026-02-06 08:55:00
+A314,V216,Shortness of Breath,Medium,2026-02-07 11:30:00
+A315,V217,Post Emergency Alert,Critical,2026-02-07 14:00:00
+A316,V218,Low Blood Sugar,Low,2026-02-07 16:50:00
+A317,V219,Cardiac Risk Indicator,High,2026-02-08 10:15:00
+A318,V220,Sugar Instability,Low,2026-02-08 13:40:00
+A319,V221,Hypertension Warning,Medium,2026-02-09 09:25:00
+A320,V222,Anxiety Spike Alert,Low,2026-02-09 16:20:00
+A321,V223,ECG Irregularity,High,2026-02-10 13:10:00
+A322,V224,Low Fluid Intake,Low,2026-02-10 17:05:00
+A323,V225,Stroke Risk Elevated,Critical,2026-02-10 08:45:00
+A324,V226,Pain Level High,Medium,2026-02-11 14:30:00
+A325,V227,Post Surgery Alert,Critical,2026-02-11 16:10:00
+A326,V228,Mild Hypoglycemia,Low,2026-02-11 12:25:00
+A327,V229,Respiratory Distress,High,2026-02-12 09:20:00
+A328,V230,Sugar Spike Alert,High,2026-02-12 11:55:00
+A329,V231,Hypertensive Emergency,High,2026-02-13 13:45:00
+A330,V232,Heart Rate Anomaly,Medium,2026-02-13 15:15:00
+A331,V233,BP Fluctuation,Medium,2026-02-14 10:10:00
+A332,V234,Fever Watch,Low,2026-02-14 16:35:00
+A333,V235,Neurological Alert,High,2026-02-14 08:20:00
+A334,V236,Pain Severity,Medium,2026-02-15 11:10:00
+A335,V237,Cardiac Complication,Critical,2026-02-15 14:20:00
+A336,V238,Low Sugar Reading,Low,2026-02-15 17:20:00
+A337,V239,Respiratory Deterioration,High,2026-02-16 10:05:00
+A338,V240,Diabetes Decompensation,High,2026-02-16 13:30:00
+A339,V241,Hypertensive Crisis,High,2026-02-17 12:05:00
+A340,V242,ECG Stability Alert,Low,2026-02-17 16:40:00
+A341,V243,Pain Alert,Medium,2026-02-18 11:50:00
+A342,V244,Low Hydration,Low,2026-02-18 17:10:00
+A343,V245,Stroke Warning,Critical,2026-02-18 09:00:00
+A344,V246,Moderate Pain,Medium,2026-02-19 11:40:00
+A345,V247,Post Op Risk,Critical,2026-02-19 14:50:00
+A346,V248,Glucose Level Low,Low,2026-02-19 17:40:00
+A347,V249,Respiratory Alarm,High,2026-02-20 09:35:00
+A348,V250,Diabetes Alert,High,2026-02-20 12:20:00
+```

@@ -1,0 +1,51 @@
+DEPT_ID,DEPARTMENT_NAME,LOCATION
+D01,Cardiology,Block A
+D02,Neurology,Block B
+D03,General Medicine,Block C
+D04,Emergency,Ground Floor
+D05,Pediatrics,Block D
+D06,Oncology,Block E
+D07,Orthopedics,Block F
+D08,Dermatology,Block G
+D09,Ophthalmology,Block H
+D10,Gynecology,Block I
+D11,Obstetrics,Block I
+D12,ENT (Ear-Nose-Throat),Block J
+D13,Radiology,Block K
+D14,Anesthesiology,Block L
+D15,ICU (Intensive Care),Block M
+D16,Neonatal ICU,Block N
+D17,Nephrology,Block O
+D18,Gastroenterology,Block P
+D19,Pulmonology,Block Q
+D20,Endocrinology,Block R
+D21,Infectious Diseases,Block S
+D22,Psychiatry,Block T
+D23,Dietetics and Nutrition,Block U
+D24,Physiotherapy,Block V
+D25,Rehabilitation,Block V
+D26,Critical Care,Block M
+D27,Laboratory Services,Block K
+D28,Radiation Oncology,Block E
+D29,Cardiac Surgery,Block A
+D30,Neurosurgery,Block B
+D31,Plastic Surgery,Block F
+D32,Dental & Oral Surgery,Block J
+D33,Allergy and Immunology,Block S
+D34,Rheumatology,Block P
+D35,Cardiology Cath Lab,Block A
+D36,Neurology ICU,Block B
+D37,Pediatric Cardiology,Block D
+D38,Pediatric Neurology,Block D
+D39,Pediatric Surgery,Block D
+D40,Neonatology,Block N
+D41,Vascular Surgery,Block F
+D42,Pain Management,Block T
+D43,Sleep Medicine,Block B
+D44,Genetic Counseling,Block H
+D45,Transplant Services,Block E
+D46,Burn Care,Block F
+D47,Hyperbaric Medicine,Block K
+D48,Ambulance & Emergency Response,Ground Floor
+D49,Health Checkup & Wellness,Block C
+D50,Medical Records & Billing,Block C

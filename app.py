@@ -1,178 +1,229 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-from datetime import datetime
-import random
 
-# -------------------------------------------------
+# ---------------------------------------------------------
 # PAGE CONFIG
-# -------------------------------------------------
-st.set_page_config(page_title="Hospital Risk Cockpit", layout="wide")
+# ---------------------------------------------------------
+st.set_page_config(page_title="🏥 Hospital Risk Cockpit", layout="wide")
 
 st.title("🏥 Smart Hospital Risk Monitoring Cockpit")
-st.markdown("### Executive Dashboard for Patient Risk, Emergency Load & Revenue Exposure")
+st.markdown(
+    "Executive Dashboard for Department Visits, Revenue Exposure, Patient Risk & Emergency Alerts"
+)
+
+# ---------------------------------------------------------
+# LOAD CSV FILES (Your Real Data)
+# ---------------------------------------------------------
+patients_df = pd.read_csv("patients.csv")
+departments_df = pd.read_csv("departments.csv")
+visits_df = pd.read_csv("visits.csv")
+alerts_df = pd.read_csv("alert.csv")
+
+# ---------------------------------------------------------
+# MERGE DATA FOR ANALYTICS
+# ---------------------------------------------------------
+
+# Merge Visits + Departments
+visits_full = visits_df.merge(departments_df, on="DEPT_ID", how="left")
+
+# Merge Visits + Patients
+visits_full = visits_full.merge(patients_df, on="PATIENT_ID", how="left")
+
+# Merge Alerts + Visits
+alerts_full = alerts_df.merge(visits_full, on="VISIT_ID", how="left")
+
+# ---------------------------------------------------------
+# KPI METRICS SECTION
+# ---------------------------------------------------------
+st.subheader("📌 Executive KPIs")
+
+total_visits = len(visits_df)
+total_revenue = visits_df["BILL_AMOUNT"].sum()
+avg_bill = visits_df["BILL_AMOUNT"].mean()
+total_alerts = len(alerts_df)
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("👨‍⚕️ Total Visits", total_visits)
+col2.metric("💰 Total Revenue", f"₹ {round(total_revenue,2)}")
+col3.metric("📊 Avg Bill Amount", f"₹ {round(avg_bill,2)}")
+col4.metric("🚨 Total Emergency Alerts", total_alerts)
 
 st.divider()
 
-# -------------------------------------------------
-# SIDEBAR FILTERS
-# -------------------------------------------------
-st.sidebar.header("🎛️ Hospital Monitoring Filters")
+# ---------------------------------------------------------
+# FILTER SECTION
+# ---------------------------------------------------------
+st.subheader("🎛️ Department Filter")
 
-visit_count = st.sidebar.slider("Number of Patient Visits", 500, 5000, 1500)
-risk_threshold = st.sidebar.slider("Minimum Patient Risk Score", 0, 100, 60)
-bill_threshold = st.sidebar.slider("High Cost Visit Threshold (₹)", 10000, 100000, 30000)
+dept_list = ["All"] + sorted(departments_df["DEPARTMENT_NAME"].unique())
+selected_dept = st.selectbox("Select Department", dept_list)
 
-# -------------------------------------------------
-# GENERATE SYNTHETIC HOSPITAL DATA
-# -------------------------------------------------
-np.random.seed(42)
+filtered_visits = visits_full.copy()
 
-dates = pd.date_range(end=datetime.today(), periods=30)
-
-departments = ["Cardiology", "Neurology", "Orthopedics", "Emergency", "Pediatrics"]
-conditions = ["Diabetes", "Heart Disease", "Fracture", "Asthma", "Cancer"]
-
-data = []
-
-for _ in range(visit_count):
-    date = random.choice(dates)
-    dept = random.choice(departments)
-    condition = random.choice(conditions)
-
-    bill_amount = np.random.randint(500, 120000)
-    risk_score = np.random.randint(5, 100)
-
-    alert_reason = None
-
-    if bill_amount > bill_threshold:
-        alert_reason = "High Cost Treatment"
-    elif risk_score > 85:
-        alert_reason = "Critical Patient Risk"
-    elif dept == "Emergency":
-        alert_reason = "Emergency Visit Alert"
-
-    data.append([
-        random.randint(1000, 3000),   # Patient ID
-        dept,
-        condition,
-        date,
-        bill_amount,
-        risk_score,
-        alert_reason
-    ])
-
-df = pd.DataFrame(data, columns=[
-    "PATIENT_ID",
-    "DEPARTMENT",
-    "CONDITION",
-    "VISIT_DATE",
-    "BILL_AMOUNT",
-    "RISK_SCORE",
-    "ALERT_REASON"
-])
-
-# -------------------------------------------------
-# EXECUTIVE KPIs
-# -------------------------------------------------
-total_visits = len(df)
-high_risk_cases = df["ALERT_REASON"].notna().sum()
-total_revenue = df["BILL_AMOUNT"].sum()
-risk_rate = round((high_risk_cases / total_visits) * 100, 2)
-
-st.markdown("## 📌 Executive Hospital KPIs")
-
-c1, c2, c3, c4 = st.columns(4)
-
-c1.metric("Total Patient Visits", f"{total_visits}")
-c2.metric("Critical Alerts Raised", f"{high_risk_cases}")
-c3.metric("Total Hospital Revenue", f"₹ {total_revenue:,}")
-c4.metric("Risk Alert Rate (%)", f"{risk_rate}%")
+if selected_dept != "All":
+    filtered_visits = filtered_visits[
+        filtered_visits["DEPARTMENT_NAME"] == selected_dept
+    ]
 
 st.divider()
 
-# -------------------------------------------------
-# VISIT TREND OVER TIME
-# -------------------------------------------------
-st.markdown("## 📈 Daily Visit Trend (Last 30 Days)")
+# ---------------------------------------------------------
+# VISUAL 1: Department-wise Visit Load
+# ---------------------------------------------------------
+st.subheader("📊 Department-wise Visit Load")
 
-trend_df = df.groupby("VISIT_DATE").size()
+visit_summary = (
+    filtered_visits.groupby("DEPARTMENT_NAME")["VISIT_ID"]
+    .count()
+    .reset_index()
+)
 
-st.line_chart(trend_df)
+visit_chart = visit_summary.set_index("DEPARTMENT_NAME")
 
-st.divider()
-
-# -------------------------------------------------
-# EMERGENCY LOAD BY HOUR
-# -------------------------------------------------
-st.markdown("## ⏰ Emergency Load by Hour")
-
-df["VISIT_HOUR"] = np.random.randint(0, 24, size=len(df))
-
-hourly = df[df["DEPARTMENT"] == "Emergency"] \
-    .groupby("VISIT_HOUR").size()
-
-st.bar_chart(hourly)
+st.bar_chart(visit_chart)
 
 st.divider()
 
-# -------------------------------------------------
-# ALERT ROOT CAUSE ANALYSIS
-# -------------------------------------------------
-st.markdown("## 🚨 Hospital Alert Root Cause Breakdown")
+# ---------------------------------------------------------
+# VISUAL 2: Revenue by Department
+# ---------------------------------------------------------
+st.subheader("💰 Revenue Comparison Across Departments")
 
-root_cause = df[df["ALERT_REASON"].notna()] \
-    .groupby("ALERT_REASON").size()
+revenue_summary = (
+    filtered_visits.groupby("DEPARTMENT_NAME")["BILL_AMOUNT"]
+    .sum()
+    .reset_index()
+)
 
-st.bar_chart(root_cause)
+revenue_chart = revenue_summary.set_index("DEPARTMENT_NAME")
+
+st.line_chart(revenue_chart)
 
 st.divider()
 
-# -------------------------------------------------
-# PATIENT RISK SEGMENTATION
-# -------------------------------------------------
-st.markdown("## 🧠 Patient Risk Segmentation")
+# ---------------------------------------------------------
+# UNIQUE REPORT: Top 5 Revenue Departments
+# ---------------------------------------------------------
+st.subheader("🏆 Top 5 Revenue Departments")
 
-filtered = df[df["RISK_SCORE"] >= risk_threshold]
+top5 = revenue_summary.sort_values("BILL_AMOUNT", ascending=False).head(5)
+st.dataframe(top5, use_container_width=True)
 
-filtered["RISK_LEVEL"] = filtered["RISK_SCORE"].apply(
+st.divider()
+
+# ---------------------------------------------------------
+# HIGH RISK PATIENTS SECTION
+# ---------------------------------------------------------
+st.subheader("⚠️ High Risk Patients Monitoring")
+
+high_risk = patients_df[patients_df["RISK_SCORE"] >= 80]
+
+st.dataframe(high_risk, use_container_width=True)
+
+st.divider()
+
+# ---------------------------------------------------------
+# PATIENT SEARCH DRILLDOWN
+# ---------------------------------------------------------
+st.subheader("🔍 Patient Risk Drilldown Search")
+
+patient_list = ["Select"] + sorted(patients_df["NAME"].unique())
+selected_patient = st.selectbox("Choose Patient", patient_list)
+
+if selected_patient != "Select":
+    patient_data = patients_df[patients_df["NAME"] == selected_patient]
+    st.dataframe(patient_data, use_container_width=True)
+
+st.divider()
+
+# ---------------------------------------------------------
+# RISK CATEGORY DISTRIBUTION
+# ---------------------------------------------------------
+st.subheader("🩺 Risk Category Distribution")
+
+risk_levels = patients_df.copy()
+
+risk_levels["RISK_LEVEL"] = risk_levels["RISK_SCORE"].apply(
     lambda x: "HIGH" if x >= 80 else "MEDIUM" if x >= 50 else "LOW"
 )
 
-risk_summary = filtered.groupby("RISK_LEVEL").size()
+risk_summary = risk_levels.groupby("RISK_LEVEL").size()
 
 st.bar_chart(risk_summary)
 
-st.info(f"Showing {len(filtered)} visits with Risk Score ≥ {risk_threshold}")
-
 st.divider()
 
-# -------------------------------------------------
-# TOP DEPARTMENTS BY REVENUE
-# -------------------------------------------------
-st.markdown("## 🏆 Top Revenue Generating Departments")
+# ---------------------------------------------------------
+# ALERT FILTER SECTION
+# ---------------------------------------------------------
+st.subheader("🚨 Emergency Alerts Drilldown")
 
-top_depts = df.groupby("DEPARTMENT")["BILL_AMOUNT"].sum() \
-    .sort_values(ascending=False)
+# FIX: Clean Alert Level Column
+alerts_df["ALERT_LEVEL"] = alerts_df["ALERT_LEVEL"].fillna("UNKNOWN").astype(str)
 
-st.bar_chart(top_depts)
+alert_levels = ["All"] + sorted(alerts_df["ALERT_LEVEL"].unique())
+selected_level = st.selectbox("Select Alert Level", alert_levels)
 
-st.divider()
+filtered_alerts = alerts_full.copy()
 
-# -------------------------------------------------
-# PATIENT DRILLDOWN SEARCH
-# -------------------------------------------------
-st.markdown("## 🔍 Patient Visit Investigation Panel")
+if selected_level != "All":
+    filtered_alerts = filtered_alerts[
+        filtered_alerts["ALERT_LEVEL"] == selected_level
+    ]
 
-patient_id = st.number_input(
-    "Enter Patient ID to Investigate",
-    min_value=1000,
-    max_value=3000
+# ---------------------------------------------------------
+# ALERT TYPE DISTRIBUTION
+# ---------------------------------------------------------
+st.subheader("📌 Alert Type Distribution")
+
+alert_type_summary = (
+    filtered_alerts.groupby("ALERT_TYPE")
+    .size()
+    .to_frame("COUNT")
 )
 
-patient_data = df[df["PATIENT_ID"] == patient_id]
+st.bar_chart(alert_type_summary)
 
-st.dataframe(patient_data, use_container_width=True)
+st.divider()
 
-st.success("✅ Smart Hospital Cockpit Loaded Successfully!")
-st.caption("Built for Hackathon: Real-Time Hospital Risk & Emergency Analytics")
+# ---------------------------------------------------------
+# ALERT TABLE WITH HIGHLIGHTING
+# ---------------------------------------------------------
+st.subheader("🚨 Live Emergency Alerts (Highlighted)")
+
+
+def highlight_alert(row):
+    if row["ALERT_LEVEL"] == "HIGH":
+        return ["background-color: red"] * len(row)
+    elif row["ALERT_LEVEL"] == "MEDIUM":
+        return ["background-color: orange"] * len(row)
+    else:
+        return ["background-color: lightgreen"] * len(row)
+
+
+st.dataframe(filtered_alerts.style.apply(highlight_alert, axis=1))
+
+st.divider()
+
+# ---------------------------------------------------------
+# DOWNLOAD ALERT REPORT
+# ---------------------------------------------------------
+st.subheader("⬇️ Download Emergency Alert Report")
+
+csv = filtered_alerts.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label="Download Alerts as CSV",
+    data=csv,
+    file_name="hospital_emergency_alerts.csv",
+    mime="text/csv",
+)
+
+st.divider()
+
+# ---------------------------------------------------------
+# FOOTER
+# ---------------------------------------------------------
+st.success("✅ Smart Hospital Risk Cockpit Loaded Successfully!")
+st.caption("Built with Real Hospital Data + Streamlit Visual Analytics")
